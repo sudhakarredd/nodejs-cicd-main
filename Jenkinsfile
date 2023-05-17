@@ -3,25 +3,25 @@ pipeline{
     stages{
         stage('checkout code'){
             steps{
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/bvenkydevops/nodejs-cicd-main']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sudhakarredd/nodejs-cicd-main.git']])
             }
         }
         stage('Build docker image'){
             steps{
              script{
-                 sh 'docker build -t venky:2.0 .'
+                 sh 'docker build -t image1:2.0 .'
              }   
             }
         }
         stage('create docker container'){
             steps{
                 script{
-                    withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
-                        sh 'docker login -u bojjavenkatesh -p ${dockerhub}'
+                    withCredentials([string(credentialsId: 'sudhakarred1', variable: 'dockerhub')]) {
+                        sh 'docker login -u sudhakarred1 -p ${dockerhub}'
                     }
-                       sh 'docker tag  venky:2.0 bojjavenkatesh/cicd-node:0.2'
-                       sh 'docker push bojjavenkatesh/cicd-node:0.2'
-                       sh ' docker run -d -p 3000:3000 nodejs-cicd npm start'
+                       sh 'docker tag  image1:2.0 sudhakarred1/dockerhub:2.0'
+                       sh 'docker push sudhakarred1/dockerhub:2.0'
+                       sh 'docker run -d -p 3000:3000 image1:2.0 npm start'
                 }
             }
         }
